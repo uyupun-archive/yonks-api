@@ -8,15 +8,19 @@ import (
 )
 
 func GetProfile(c echo.Context) error {
-	return c.JSON(http.StatusOK, models.User{
-		ID:           1,
-		UserID:       "yonks",
-		Name:         "ヤンクス太郎",
-		StatusID:     1,
-		SNSLine:      "@yonks",
-		SNSTwitter:   "@yonks",
-		SNSInstagram: "@yonks",
-		SNSTikTok:    "@yonks",
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"id":            1,
+		"user_id":       "yonks",
+		"name":          "ヤンクス太郎",
+		"status_id":     1,
+		"sns_line":      "@yonks",
+		"sns_twitter":   "@yonks",
+		"sns_instagram": "@yonks",
+		"sns_tiktok":    "@yonks",
+		"status": models.Status{
+			ID:   1,
+			Name: "人肌恋しい",
+		},
 	})
 }
 
