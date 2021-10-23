@@ -5,6 +5,7 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	"github.com/uyupun/yonks-api/handler"
 )
 
 func newRouter() *echo.Echo {
@@ -17,8 +18,16 @@ func newRouter() *echo.Echo {
 		return c.JSON(http.StatusOK, "Yonks API")
 	})
 
-	// apiVersion := "/api/v0"
-	// api := e.Group(apiVersion)
+	apiVersion := "/api/v0"
+	api := e.Group(apiVersion)
+
+	api.POST("/auth/register", handler.AuthRegister)
+	api.POST("/auth/login", handler.AuthLogin)
+	api.GET("/friends", handler.GetFriends)
+	api.POST("/frineds", handler.AddFriend)
+	api.GET("/profile", handler.GetProfile)
+	api.PATCH("/profile", handler.SaveProfile)
+	api.GET("/notifications", handler.GetNotifications)
 
 	return e
 }
