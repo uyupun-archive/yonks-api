@@ -20,7 +20,12 @@ func newRouter() *echo.Echo {
 
 	apiVersion := "/api/v0"
 	api := e.Group(apiVersion)
+	registerApiRoutes(*api)
 
+	return e
+}
+
+func registerApiRoutes(api echo.Group) {
 	api.POST("/auth/register", handler.AuthRegister)
 	api.POST("/auth/login", handler.AuthLogin)
 	api.GET("/friends", handler.GetFriends)
@@ -28,6 +33,4 @@ func newRouter() *echo.Echo {
 	api.GET("/profile", handler.GetProfile)
 	api.PATCH("/profile", handler.SaveProfile)
 	api.GET("/notifications", handler.GetNotifications)
-
-	return e
 }
