@@ -14,11 +14,23 @@ func AuthRegister(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, err)
 	}
 
-	// DBに保存する処理
+	// TODO: DBに保存する処理
 
 	return c.JSON(http.StatusOK, "")
 }
 
 func AuthLogin(c echo.Context) error {
+	user := new(models.User)
+	err := c.Bind(&user)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err)
+	}
+
+	// TODO: ユーザIDとパスワードを検証する処理
+	if user.UserID != "takashi" || user.Password != "testtest" {
+		return c.JSON(http.StatusBadRequest, err)
+	}
+
+	// TODO: トークン等を返す
 	return c.JSON(http.StatusOK, "")
 }
