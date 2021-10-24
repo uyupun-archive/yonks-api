@@ -3,4 +3,5 @@
 ```
 $ make deps
 $ make up
+$ make ngrok
 ```
