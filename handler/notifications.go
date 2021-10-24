@@ -12,12 +12,7 @@ func GetNotifications(c echo.Context) error {
 		{
 			ID:      1,
 			UserID:  1,
-			Content: "test",
-		},
-		{
-			ID:      2,
-			UserID:  1,
-			Content: "test",
+			Content: "かずきちさんとマッチングしました！\nかずきちさんの連絡先:\nLINE: @h_tyokinuhata\nTwitter: @h_tyokinuhata\nInstagram: @h_tyokinuhata\nTikTok: @h_tyokinuhata",
 		},
 	})
 }

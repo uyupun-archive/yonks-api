@@ -10,15 +10,15 @@ import (
 func GetProfile(c echo.Context) error {
 	return c.JSON(http.StatusOK, map[string]interface{}{
 		"id":            1,
-		"user_id":       "yonks",
-		"name":          "ヤンクス太郎",
-		"status_id":     1,
-		"sns_line":      "@yonks",
-		"sns_twitter":   "@yonks",
-		"sns_instagram": "@yonks",
-		"sns_tiktok":    "@yonks",
+		"user_id":       "takashi0602",
+		"name":          "高橋たかし",
+		"status_id":     3,
+		"sns_line":      "@takashi0602",
+		"sns_twitter":   "@takashi0602",
+		"sns_instagram": "@takashi0602",
+		"sns_tiktok":    "@takashi0602",
 		"status": models.Status{
-			ID:   1,
+			ID:   3,
 			Name: "人肌恋しい",
 		},
 	})

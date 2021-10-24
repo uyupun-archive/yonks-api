@@ -27,7 +27,7 @@ func AuthLogin(c echo.Context) error {
 	}
 
 	// TODO: ユーザIDとパスワードを検証する処理
-	if user.UserID != "takashi" || user.Password != "testtest" {
+	if user.UserID != "takashi0602" || user.Password != "testtest" {
 		return c.JSON(http.StatusBadRequest, err)
 	}
 
