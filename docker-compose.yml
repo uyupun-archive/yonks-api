@@ -1,0 +1,24 @@
+version: "3"
+
+services:
+  db:
+    container_name: yonks_db
+    hostname: yonks_db
+    image: mysql:8.0
+    ports:
+      - ${DB_EXPOSE_PORT}:3306
+    volumes:
+      - ./docker/db/data:/var/lib/mysql
+      - ./docker/db/logs:/var/log/mysql
+      - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
+    environment:
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      TZ: "Asia/Tokyo"
+    restart: always
+
+networks:
+  default:
+    name: yonks_network
