@@ -11,7 +11,7 @@ ngrok:
 	ngrok http 8000
 
 migrate/up:
-	go run migrations/main.go up
+	go run migrations/main.go migrations/migration_targets.go up
 
 migrate/down:
-	go run migrations/main.go down
+	go run migrations/main.go migrations/migration_targets.go down

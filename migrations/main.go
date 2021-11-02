@@ -3,9 +3,10 @@ package main
 import (
 	"fmt"
 	"os"
+	"reflect"
+	"strings"
 
 	"github.com/joho/godotenv"
-	"github.com/uyupun/yonks-api/models"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -36,8 +37,11 @@ func migrateUp() {
 		panic(err)
 	}
 
-	db.AutoMigrate(&models.User{})
-	fmt.Println("Applied migrations!")
+	for idx, target := range registerMigrationTargets() {
+		db.AutoMigrate(target)
+		modelName := strings.Split(reflect.TypeOf(target).String(), ".")[1]
+		fmt.Printf("%d: Applied %s migration!\n", idx+1, modelName)
+	}
 }
 
 func migrateDown() {
@@ -46,8 +50,12 @@ func migrateDown() {
 		panic(err)
 	}
 
-	db.Migrator().DropTable(&models.User{})
-	fmt.Println("Rollbacked migrations!")
+	for idx, target := range registerMigrationTargets() {
+		db.Migrator().DropTable(target)
+		modelName := strings.Split(reflect.TypeOf(target).String(), ".")[1]
+		fmt.Printf("%d: Rollbacked %s migration!\n", idx+1, modelName)
+	}
+
 }
 
 func connectDB() (*gorm.DB, error) {
