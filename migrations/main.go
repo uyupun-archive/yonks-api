@@ -20,21 +20,27 @@ func migrate() {
 	if len(args) < 2 {
 		panic("Too few arguments")
 	}
+
 	command := args[1]
-	fmt.Println(command)
 	if command == "up" {
-		migrateUp()
+		err := migrateUp()
+		if err != nil {
+			panic(err)
+		}
 	} else if command == "down" {
-		migrateDown()
+		err := migrateDown()
+		if err != nil {
+			panic(err)
+		}
 	} else {
 		panic("Command not match")
 	}
 }
 
-func migrateUp() {
+func migrateUp() error {
 	db, err := connectDB()
 	if err != nil {
-		panic(err)
+		return err
 	}
 
 	for idx, target := range registerMigrationTargets() {
@@ -42,12 +48,13 @@ func migrateUp() {
 		modelName := strings.Split(reflect.TypeOf(target).String(), ".")[1]
 		fmt.Printf("%d: Applied %s migration!\n", idx+1, modelName)
 	}
+	return nil
 }
 
-func migrateDown() {
+func migrateDown() error {
 	db, err := connectDB()
 	if err != nil {
-		panic(err)
+		return err
 	}
 
 	for idx, target := range registerMigrationTargets() {
@@ -55,7 +62,7 @@ func migrateDown() {
 		modelName := strings.Split(reflect.TypeOf(target).String(), ".")[1]
 		fmt.Printf("%d: Rollbacked %s migration!\n", idx+1, modelName)
 	}
-
+	return nil
 }
 
 func connectDB() (*gorm.DB, error) {
