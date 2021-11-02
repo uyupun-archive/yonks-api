@@ -5,22 +5,49 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
+	"github.com/uyupun/yonks-api/models"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
 func main() {
-	con, err := connectDB()
-	if err != nil {
-		panic(err)
-	}
-	db, err := con.DB()
-	if err != nil {
-		panic(err)
-	}
-	defer db.Close()
+	migrate()
+}
 
-	// マイグレーション
+func migrate() {
+	args := os.Args
+	if len(args) < 2 {
+		panic("Too few arguments")
+	}
+	command := args[1]
+	fmt.Println(command)
+	if command == "up" {
+		migrateUp()
+	} else if command == "down" {
+		migrateDown()
+	} else {
+		panic("Command not match")
+	}
+}
+
+func migrateUp() {
+	db, err := connectDB()
+	if err != nil {
+		panic(err)
+	}
+
+	db.AutoMigrate(&models.User{})
+	fmt.Println("Applied migrations!")
+}
+
+func migrateDown() {
+	db, err := connectDB()
+	if err != nil {
+		panic(err)
+	}
+
+	db.Migrator().DropTable(&models.User{})
+	fmt.Println("Rollbacked migrations!")
 }
 
 func connectDB() (*gorm.DB, error) {

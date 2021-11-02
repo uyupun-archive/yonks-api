@@ -9,3 +9,9 @@ up:
 
 ngrok:
 	ngrok http 8000
+
+migrate/up:
+	go run migrations/main.go up
+
+migrate/down:
+	go run migrations/main.go down
