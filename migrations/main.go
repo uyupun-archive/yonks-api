@@ -12,10 +12,10 @@ import (
 )
 
 func main() {
-	migrate()
+	execCmd()
 }
 
-func migrate() {
+func execCmd() {
 	args := os.Args
 	if len(args) < 2 {
 		panic("Too few arguments")
