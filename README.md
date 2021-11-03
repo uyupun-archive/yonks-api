@@ -1,6 +1,6 @@
 # Yonks API
 
-```
+```bash
 $ cp .env.example .env  # 実行後、.envに適切な値を設定する
 $ make deps
 $ make up
@@ -11,7 +11,7 @@ $ make ngrok
 
 ##### マイグレーションの実行
 
-```
+```bash
 $ make migrate/up
 $ make migrate/down
 ```
@@ -20,7 +20,7 @@ $ make migrate/down
 
 `migrations/targets.go` の `registerMigrationTargets()` に該当するモデルを追記する
 
-```
+```go
 func registerMigrationTargets() []interface{} {
 	return []interface{}{
 		&models.Foo{},
