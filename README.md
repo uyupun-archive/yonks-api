@@ -16,9 +16,9 @@ $ make migrate/up
 $ make migrate/down
 ```
 
-##### 新たに追加する場合
+##### マイグレーションファイルを追加する
 
-`migrations/migreation_targets.go` の `registerMigrationTargets()` に該当するモデルを追記する
+`migrations/targets.go` の `registerMigrationTargets()` に該当するモデルを追記する
 
 ```
 func registerMigrationTargets() []interface{} {
