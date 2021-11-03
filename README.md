@@ -24,8 +24,8 @@ $ make migrate/down
 func registerMigrationTargets() []interface{} {
 	return []interface{}{
 		&models.Foo{},
-        &models.Bar{},
-        &models.Baz{},
+		&models.Bar{},
+		&models.Baz{},
 	}
 }
 ```
