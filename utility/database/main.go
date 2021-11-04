@@ -2,6 +2,7 @@ package database
 
 import (
 	"fmt"
+	"net/url"
 	"os"
 
 	"github.com/joho/godotenv"
@@ -34,8 +35,9 @@ func getDSN() (string, error) {
 	userName := os.Getenv("DB_USERNAME")
 	password := os.Getenv("DB_PASSWORD")
 	parseTime := "true"
+	location := url.PathEscape("Asia/Tokyo")
 
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=%s", userName, password, host, port, name, parseTime)
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=%s&loc=%s", userName, password, host, port, name, parseTime, location)
 
 	return dsn, nil
 }
