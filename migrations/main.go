@@ -6,7 +6,7 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/uyupun/yonks-api/utility"
+	"github.com/uyupun/yonks-api/utility/database"
 )
 
 type MigrateType string
@@ -43,7 +43,7 @@ func execCmd() {
 }
 
 func migrate(migrateType MigrateType) error {
-	db, err := utility.ConnectDB()
+	db, err := database.ConnectDB()
 	if err != nil {
 		return err
 	}

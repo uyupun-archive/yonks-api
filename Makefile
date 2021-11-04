@@ -15,3 +15,6 @@ migrate/up:
 
 migrate/down:
 	go run migrations/main.go migrations/targets.go down
+
+seed:
+	go run seeds/main.go

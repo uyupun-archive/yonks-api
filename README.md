@@ -29,3 +29,9 @@ func registerMigrationTargets() []interface{} {
 	}
 }
 ```
+
+### モックデータの作成
+
+```bash
+$ make seed
+```
