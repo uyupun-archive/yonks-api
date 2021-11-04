@@ -5,7 +5,7 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
-	"github.com/uyupun/yonks-api/handler"
+	"github.com/uyupun/yonks-api/handlers"
 )
 
 func newRouter() *echo.Echo {
@@ -26,11 +26,11 @@ func newRouter() *echo.Echo {
 }
 
 func registerApiRoutes(api echo.Group) {
-	api.POST("/auth/register", handler.AuthRegister)
-	api.POST("/auth/login", handler.AuthLogin)
-	api.GET("/friends", handler.GetFriends)
-	api.POST("/frineds", handler.AddFriend)
-	api.GET("/profile", handler.GetProfile)
-	api.PATCH("/profile", handler.SaveProfile)
-	api.GET("/notifications", handler.GetNotifications)
+	api.POST("/auth/register", handlers.AuthRegister)
+	api.POST("/auth/login", handlers.AuthLogin)
+	api.GET("/friends", handlers.GetFriends)
+	api.POST("/frineds", handlers.AddFriend)
+	api.GET("/profile", handlers.GetProfile)
+	api.PATCH("/profile", handlers.SaveProfile)
+	api.GET("/notifications", handlers.GetNotifications)
 }
