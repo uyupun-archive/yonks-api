@@ -1,20 +1,24 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
 
 	"github.com/uyupun/yonks-api/models"
 	"github.com/uyupun/yonks-api/utility/database"
 )
 
 func main() {
-	users := []models.User{
-		{
-			UserID:   "test001",
-			Password: "testtest",
-			Name:     "テスト太郎",
-			StatusID: 1,
-		},
+	bytes, err := ioutil.ReadFile("seeds/mocks/users.json")
+	if err != nil {
+		panic(err)
+	}
+
+	var users []models.User
+	err = json.Unmarshal(bytes, &users)
+	if err != nil {
+		panic(err)
 	}
 
 	db, err := database.ConnectDB()
