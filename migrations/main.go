@@ -49,7 +49,6 @@ func migrate(migrateType MigrateType) error {
 	}
 
 	for idx, target := range registerMigrationTargets() {
-		db.AutoMigrate(target)
 		if migrateType == MigrateTypeUp {
 			db.AutoMigrate(target)
 		} else if migrateType == MigrateTypeDown {
