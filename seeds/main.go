@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"os"
 
 	"github.com/uyupun/yonks-api/utility/database"
 )
@@ -16,8 +17,23 @@ const (
 )
 
 func main() {
-	seed(SeedTypeInit)
-	seed(SeedTypeMock)
+	execCmd()
+}
+
+func execCmd() {
+	args := os.Args
+	if len(args) < 2 {
+		panic("Too few arguments")
+	}
+
+	command := args[1]
+	if command == string(SeedTypeInit) {
+		seed(SeedTypeInit)
+	} else if command == string(SeedTypeMock) {
+		seed(SeedTypeMock)
+	} else {
+		panic("Command not match")
+	}
 }
 
 func seed(seedType SeedType) {

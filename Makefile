@@ -16,5 +16,8 @@ migrate/up:
 migrate/down:
 	go run migrations/main.go migrations/targets.go down
 
-seed:
-	go run seeds/main.go seeds/targets.go
+seed/init:
+	go run seeds/main.go seeds/targets.go init
+
+seed/mock:
+	go run seeds/main.go seeds/targets.go mock

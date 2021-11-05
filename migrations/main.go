@@ -28,36 +28,32 @@ func execCmd() {
 
 	command := args[1]
 	if command == string(MigrateTypeUp) {
-		err := migrate(MigrateTypeUp)
-		if err != nil {
-			panic(err)
-		}
+		migrate(MigrateTypeUp)
 	} else if command == string(MigrateTypeDown) {
-		err := migrate(MigrateTypeDown)
-		if err != nil {
-			panic(err)
-		}
+		migrate(MigrateTypeDown)
 	} else {
 		panic("Command not match")
 	}
 }
 
-func migrate(migrateType MigrateType) error {
+func migrate(migrateType MigrateType) {
 	db, err := database.ConnectDB()
 	if err != nil {
-		return err
+		panic(err)
 	}
 
 	for idx, target := range registerMigrationTargets() {
+		msg := "Applied"
 		if migrateType == MigrateTypeUp {
 			db.AutoMigrate(target)
 		} else if migrateType == MigrateTypeDown {
 			db.Migrator().DropTable(target)
+			msg = "Rollbacked"
 		} else {
-			return nil
+			return
 		}
+
 		modelName := strings.Split(reflect.TypeOf(target).String(), ".")[1]
-		fmt.Printf("%d: Applied %s migration!\n", idx+1, modelName)
+		fmt.Printf("%d: %s %s migration!\n", idx+1, msg, modelName)
 	}
-	return nil
 }
