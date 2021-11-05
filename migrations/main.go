@@ -42,7 +42,13 @@ func migrate(migrateType MigrateType) {
 		panic(err)
 	}
 
-	for idx, target := range registerMigrationTargets() {
+	cnt := 0
+	for _, target := range registerMigrationTargets() {
+		isShow := false
+		if !db.Migrator().HasTable(target) {
+			isShow = true
+		}
+
 		msg := "Applied"
 		if migrateType == MigrateTypeUp {
 			db.AutoMigrate(target)
@@ -53,7 +59,10 @@ func migrate(migrateType MigrateType) {
 			return
 		}
 
-		modelName := strings.Split(reflect.TypeOf(target).String(), ".")[1]
-		fmt.Printf("%d: %s %s migration!\n", idx+1, msg, modelName)
+		if isShow {
+			cnt++
+			modelName := strings.Split(reflect.TypeOf(target).String(), ".")[1]
+			fmt.Printf("%d: %s %s migration!\n", cnt, msg, modelName)
+		}
 	}
 }
