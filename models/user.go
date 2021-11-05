@@ -11,7 +11,7 @@ type User struct {
 	UserID       string    `gorm:"unique" json:"user_id" yaml:"user_id"`
 	Password     string    `gorm:"notNull" json:"password" yaml:"password"`
 	Name         string    `gorm:"notNull" json:"name" yaml:"name"`
-	StatusID     int       `gorm:"notNull" json:"status_id" yaml:"status_id"`
+	StatusID     int       `gorm:"notNull default:1" json:"status_id" yaml:"status_id"`
 	SNSLine      string    `gorm:"default:null" json:"sns_line" yaml:"sns_line"`
 	SNSTwitter   string    `gorm:"default:null" json:"sns_twitter" yaml:"sns_twitter"`
 	SNSInstagram string    `gorm:"default:null" json:"sns_instagram" yaml:"sns_instagram"`
