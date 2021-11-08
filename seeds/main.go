@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"time"
 
 	"github.com/uyupun/yonks-api/utility/database"
 )
@@ -57,6 +58,11 @@ func seed(seedType SeedType) {
 		db, err := database.ConnectDB()
 		if err != nil {
 			panic(err)
+		}
+
+		for _, record := range records {
+			record["created_at"] = time.Now()
+			record["updated_at"] = time.Now()
 		}
 
 		db.Model(&target.Model).Create(records)
