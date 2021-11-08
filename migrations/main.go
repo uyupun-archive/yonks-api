@@ -44,15 +44,17 @@ func migrate(migrateType MigrateType) {
 
 	cnt := 0
 	for _, target := range registerMigrationTargets() {
-		isShow := false
-		if !db.Migrator().HasTable(target) {
-			isShow = true
-		}
-
 		msg := "Applied"
+		isShow := false
 		if migrateType == MigrateTypeUp {
+			if !db.Migrator().HasTable(target) {
+				isShow = true
+			}
 			db.AutoMigrate(target)
 		} else if migrateType == MigrateTypeDown {
+			if db.Migrator().HasTable(target) {
+				isShow = true
+			}
 			db.Migrator().DropTable(target)
 			msg = "Rollbacked"
 		} else {
