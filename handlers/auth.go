@@ -5,26 +5,42 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/uyupun/yonks-api/models"
+	"github.com/uyupun/yonks-api/utility/database"
 	"golang.org/x/crypto/bcrypt"
 )
 
+type AuthInfo struct {
+	UserID   string `json:"user_id"`
+	Password string `json:"password"`
+}
+
 func AuthRegister(c echo.Context) error {
-	user := new(models.User)
+	var user models.User
+
 	err := c.Bind(&user)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err)
 	}
 
-	// TODO: DBに保存する処理
+	password := []byte(user.Password)
+	hashed, err := bcrypt.GenerateFromPassword(password, 10)
+	if err != nil {
+		return c.JSON(http.StatusServiceUnavailable, err)
+	}
+	user.Password = string(hashed)
 
-	return c.JSON(http.StatusOK, "")
+	err = database.CreateUser(user)
+	if err != nil {
+		return c.JSON(http.StatusServiceUnavailable, err)
+	}
+
+	// トークンの生成
+
+	return c.JSON(http.StatusOK, nil)
 }
 
 func AuthLogin(c echo.Context) error {
-	loginInfo := struct {
-		UserID   string `json:"user_id"`
-		Password string `json:"password"`
-	}{}
+	var loginInfo AuthInfo
 
 	err := c.Bind(&loginInfo)
 	if err != nil {
