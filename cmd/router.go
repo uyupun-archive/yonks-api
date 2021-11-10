@@ -28,6 +28,7 @@ func newRouter() *echo.Echo {
 func registerApiRoutes(api echo.Group) {
 	api.POST("/auth/register", handlers.AuthRegister)
 	api.POST("/auth/login", handlers.AuthLogin)
+	api.POST("/auth/logout", handlers.AuthLogout)
 	api.GET("/friends", handlers.GetFriends)
 	api.POST("/frineds", handlers.AddFriend)
 	api.GET("/profile", handlers.GetProfile)

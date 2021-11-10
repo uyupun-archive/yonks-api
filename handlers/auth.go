@@ -34,3 +34,7 @@ func AuthLogin(c echo.Context) error {
 	// TODO: トークン等を返す
 	return c.JSON(http.StatusOK, "")
 }
+
+func AuthLogout(c echo.Context) error {
+	return nil
+}
