@@ -13,7 +13,7 @@ func CreateUser(user models.User) error {
 	return nil
 }
 
-func FetchUser(user *models.User) error {
+func FindUserByUserID(user *models.User) error {
 	db, err := ConnectDB()
 	if err != nil {
 		return err

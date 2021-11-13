@@ -3,7 +3,9 @@ package handlers
 import (
 	"fmt"
 	"net/http"
+	"time"
 
+	"github.com/golang-jwt/jwt"
 	"github.com/labstack/echo/v4"
 	"github.com/uyupun/yonks-api/models"
 	"github.com/uyupun/yonks-api/utility/database"
@@ -32,8 +34,20 @@ func AuthRegister(c echo.Context) error {
 	}
 
 	// トークンの生成
+	token := jwt.New(jwt.SigningMethodHS256)
+	claims := token.Claims.(jwt.MapClaims)
+	claims["name"] = "Taro"
+	claims["admin"] = true
+	claims["exp"] = time.Now().Add(time.Hour * 24).Unix()
 
-	return c.JSON(http.StatusOK, nil)
+	t, err := token.SignedString([]byte("secret"))
+	if err != nil {
+		return c.JSON(http.StatusServiceUnavailable, err)
+	}
+
+	return c.JSON(http.StatusOK, map[string]string{
+		"token": t,
+	})
 }
 
 func AuthLogin(c echo.Context) error {
@@ -50,7 +64,7 @@ func AuthLogin(c echo.Context) error {
 	user := models.User{
 		UserID: loginInfo.UserID,
 	}
-	err = database.FetchUser(&user)
+	err = database.FindUserByUserID(&user)
 	if err != nil {
 		return c.JSON(http.StatusServiceUnavailable, err)
 	}
@@ -63,8 +77,20 @@ func AuthLogin(c echo.Context) error {
 	}
 
 	// トークンの生成
+	token := jwt.New(jwt.SigningMethodHS256)
+	claims := token.Claims.(jwt.MapClaims)
+	claims["name"] = "Taro"
+	claims["admin"] = true
+	claims["exp"] = time.Now().Add(time.Hour * 24).Unix()
 
-	return c.JSON(http.StatusOK, nil)
+	t, err := token.SignedString([]byte("secret"))
+	if err != nil {
+		return c.JSON(http.StatusServiceUnavailable, err)
+	}
+
+	return c.JSON(http.StatusOK, map[string]string{
+		"token": t,
+	})
 }
 
 func AuthLogout(c echo.Context) error {

@@ -21,6 +21,7 @@ func newRouter() *echo.Echo {
 	apiVersion := "/api/v0"
 	api := e.Group(apiVersion)
 	registerApiRoutes(*api)
+	registerAuthRequiredApiRoutes(*api)
 
 	return e
 }
@@ -28,6 +29,11 @@ func newRouter() *echo.Echo {
 func registerApiRoutes(api echo.Group) {
 	api.POST("/auth/register", handlers.AuthRegister)
 	api.POST("/auth/login", handlers.AuthLogin)
+}
+
+func registerAuthRequiredApiRoutes(api echo.Group) {
+	api.Use(middleware.JWT([]byte("secret")))
+
 	api.POST("/auth/logout", handlers.AuthLogout)
 	api.GET("/friends", handlers.GetFriends)
 	api.POST("/frineds", handlers.AddFriend)
