@@ -17,18 +17,14 @@ func HashPassword(password string) (string, error) {
 
 func IsValidPassword(password string, hashedPassword string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(password))
-	if err != nil {
-		return false
-	}
-	return true
+	return err == nil
 }
 
 func IssueToken() (string, error) {
 	token := jwt.New(jwt.SigningMethodHS256)
 	claims := token.Claims.(jwt.MapClaims)
-	claims["name"] = "Taro"
-	claims["admin"] = true
-	claims["exp"] = time.Now().Add(time.Hour * 24).Unix()
+	oneWeek := 7
+	claims["exp"] = time.Now().AddDate(oneWeek, 0, 0).Unix()
 
 	signedToken, err := token.SignedString([]byte("secret"))
 	if err != nil {

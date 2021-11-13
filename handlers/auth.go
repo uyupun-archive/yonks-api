@@ -67,7 +67,3 @@ func AuthLogin(c echo.Context) error {
 		"token": token,
 	})
 }
-
-func AuthLogout(c echo.Context) error {
-	return nil
-}
