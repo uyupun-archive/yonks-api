@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -9,19 +10,14 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-type AuthInfo struct {
-	UserID   string `json:"user_id"`
-	Password string `json:"password"`
-}
-
 func AuthRegister(c echo.Context) error {
 	var user models.User
-
 	err := c.Bind(&user)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err)
 	}
 
+	// パスワードをbcryptでハッシュ化
 	password := []byte(user.Password)
 	hashed, err := bcrypt.GenerateFromPassword(password, 10)
 	if err != nil {
@@ -29,6 +25,7 @@ func AuthRegister(c echo.Context) error {
 	}
 	user.Password = string(hashed)
 
+	// ユーザの作成
 	err = database.CreateUser(user)
 	if err != nil {
 		return c.JSON(http.StatusServiceUnavailable, err)
@@ -40,24 +37,28 @@ func AuthRegister(c echo.Context) error {
 }
 
 func AuthLogin(c echo.Context) error {
-	var loginInfo AuthInfo
-
+	loginInfo := struct {
+		UserID   string `json:"user_id"`
+		Password string `json:"password"`
+	}{}
 	err := c.Bind(&loginInfo)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err)
 	}
 
-	password := []byte(loginInfo.Password)
-	hashed, err := bcrypt.GenerateFromPassword(password, 10)
+	// ユーザの取得
+	user := models.User{
+		UserID: loginInfo.UserID,
+	}
+	err = database.FetchUser(&user)
 	if err != nil {
 		return c.JSON(http.StatusServiceUnavailable, err)
 	}
 
-	// DBのユーザ情報を取得
-
 	// パスワードの検証
-	err = bcrypt.CompareHashAndPassword(hashed, password)
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(loginInfo.Password))
 	if err != nil {
+		fmt.Println(err)
 		return c.JSON(http.StatusUnauthorized, err)
 	}
 

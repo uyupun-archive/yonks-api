@@ -12,3 +12,13 @@ func CreateUser(user models.User) error {
 
 	return nil
 }
+
+func FetchUser(user *models.User) error {
+	db, err := ConnectDB()
+	if err != nil {
+		return err
+	}
+
+	db.Find(&user, "user_id = ?", user.UserID)
+	return nil
+}
