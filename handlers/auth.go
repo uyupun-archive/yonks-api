@@ -1,15 +1,12 @@
 package handlers
 
 import (
-	"fmt"
 	"net/http"
-	"time"
 
-	"github.com/golang-jwt/jwt"
 	"github.com/labstack/echo/v4"
 	"github.com/uyupun/yonks-api/models"
+	"github.com/uyupun/yonks-api/utility/auth"
 	"github.com/uyupun/yonks-api/utility/database"
-	"golang.org/x/crypto/bcrypt"
 )
 
 func AuthRegister(c echo.Context) error {
@@ -19,34 +16,23 @@ func AuthRegister(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, err)
 	}
 
-	// パスワードをbcryptでハッシュ化
-	password := []byte(user.Password)
-	hashed, err := bcrypt.GenerateFromPassword(password, 10)
+	hashed, err := auth.HashPassword(user.Password)
 	if err != nil {
 		return c.JSON(http.StatusServiceUnavailable, err)
 	}
-	user.Password = string(hashed)
+	user.Password = hashed
 
-	// ユーザの作成
 	err = database.CreateUser(user)
 	if err != nil {
 		return c.JSON(http.StatusServiceUnavailable, err)
 	}
 
-	// トークンの生成
-	token := jwt.New(jwt.SigningMethodHS256)
-	claims := token.Claims.(jwt.MapClaims)
-	claims["name"] = "Taro"
-	claims["admin"] = true
-	claims["exp"] = time.Now().Add(time.Hour * 24).Unix()
-
-	t, err := token.SignedString([]byte("secret"))
+	token, err := auth.IssueToken()
 	if err != nil {
 		return c.JSON(http.StatusServiceUnavailable, err)
 	}
-
 	return c.JSON(http.StatusOK, map[string]string{
-		"token": t,
+		"token": token,
 	})
 }
 
@@ -60,7 +46,6 @@ func AuthLogin(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, err)
 	}
 
-	// ユーザの取得
 	user := models.User{
 		UserID: loginInfo.UserID,
 	}
@@ -69,27 +54,17 @@ func AuthLogin(c echo.Context) error {
 		return c.JSON(http.StatusServiceUnavailable, err)
 	}
 
-	// パスワードの検証
-	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(loginInfo.Password))
-	if err != nil {
-		fmt.Println(err)
+	isValidPassword := auth.IsValidPassword(loginInfo.Password, user.Password)
+	if !isValidPassword {
 		return c.JSON(http.StatusUnauthorized, err)
 	}
 
-	// トークンの生成
-	token := jwt.New(jwt.SigningMethodHS256)
-	claims := token.Claims.(jwt.MapClaims)
-	claims["name"] = "Taro"
-	claims["admin"] = true
-	claims["exp"] = time.Now().Add(time.Hour * 24).Unix()
-
-	t, err := token.SignedString([]byte("secret"))
+	token, err := auth.IssueToken()
 	if err != nil {
 		return c.JSON(http.StatusServiceUnavailable, err)
 	}
-
 	return c.JSON(http.StatusOK, map[string]string{
-		"token": t,
+		"token": token,
 	})
 }
 
