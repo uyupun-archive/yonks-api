@@ -27,7 +27,7 @@ func AuthRegister(c echo.Context) error {
 		return c.JSON(http.StatusServiceUnavailable, err)
 	}
 
-	token, err := auth.IssueToken()
+	token, err := auth.IssueToken(user.UserID)
 	if err != nil {
 		return c.JSON(http.StatusServiceUnavailable, err)
 	}
@@ -59,7 +59,7 @@ func AuthLogin(c echo.Context) error {
 		return c.JSON(http.StatusUnauthorized, err)
 	}
 
-	token, err := auth.IssueToken()
+	token, err := auth.IssueToken(user.UserID)
 	if err != nil {
 		return c.JSON(http.StatusServiceUnavailable, err)
 	}

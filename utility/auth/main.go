@@ -20,10 +20,11 @@ func IsValidPassword(password string, hashedPassword string) bool {
 	return err == nil
 }
 
-func IssueToken() (string, error) {
+func IssueToken(userID string) (string, error) {
 	token := jwt.New(jwt.SigningMethodHS256)
 	claims := token.Claims.(jwt.MapClaims)
 	oneWeek := 7
+	claims["user_id"] = userID
 	claims["exp"] = time.Now().AddDate(oneWeek, 0, 0).Unix()
 
 	signedToken, err := token.SignedString([]byte("secret"))
