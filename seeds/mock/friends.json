@@ -1,0 +1,10 @@
+[
+    {
+        "user_id": 1,
+        "target_user_id": 2
+    },
+    {
+        "user_id": 2,
+        "target_user_id": 1
+    }
+]

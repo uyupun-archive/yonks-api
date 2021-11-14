@@ -22,5 +22,9 @@ func registerMockTargets() []Target {
 			Model: []models.User{},
 			Seed:  "users.json",
 		},
+		{
+			Model: []models.Friend{},
+			Seed:  "friends.json",
+		},
 	}
 }

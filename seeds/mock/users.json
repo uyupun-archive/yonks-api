@@ -1,8 +1,14 @@
 [
     {
         "user_id": "test001",
-        "password": "testtest",
-        "name": "テスト太郎",
+        "password": "$2a$10$TLe13.2nmVqhNJCIg6FHH.YCDDUrKnTcSqL78PB5sE75R2br/UG.S",
+        "name": "テスト太郎１",
+        "status_id": 1
+    },
+    {
+        "user_id": "test002",
+        "password": "$2a$10$ykE/NtWbWEhRMaXs3HqBXeWPu.IqBHZb0pl.iJfQBRXktaG8CETWa",
+        "name": "テスト太郎２",
         "status_id": 1
     }
 ]

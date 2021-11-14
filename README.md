@@ -80,3 +80,10 @@ func registerMockTargets() []Target {
 	}
 }
 ```
+
+### テスト用ユーザ
+
+|ユーザID|パスワード|
+|:--|:--|
+|test001|testtest|
+|test002|testtest|

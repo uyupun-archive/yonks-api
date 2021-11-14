@@ -6,5 +6,6 @@ func registerMigrationTargets() []interface{} {
 	return []interface{}{
 		&models.User{},
 		&models.Status{},
+		&models.Friend{},
 	}
 }
