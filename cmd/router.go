@@ -36,7 +36,7 @@ func registerAuthRequiredApiRoutes(api echo.Group) {
 
 	api.GET("/friends", handlers.GetFriends)
 	api.POST("/frineds", handlers.AddFriend)
-	api.GET("/profile", handlers.GetProfile)
+	api.GET("/profile/:user_id", handlers.GetProfile)
 	api.PATCH("/profile", handlers.SaveProfile)
 	api.GET("/notifications", handlers.GetNotifications)
 }
