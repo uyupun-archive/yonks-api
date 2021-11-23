@@ -13,14 +13,15 @@ func CreateUser(user models.User) error {
 	return nil
 }
 
-func FindUserByUserID(user *models.User) error {
+func FindUserByUserID(userID string) (models.User, error) {
+	var user models.User
 	db, err := ConnectDB()
 	if err != nil {
-		return err
+		return user, err
 	}
 
-	db.Find(&user, "user_id = ?", user.UserID)
-	return nil
+	db.First(&user, "user_id = ?", userID)
+	return user, nil
 }
 
 func UpdateUser(user models.User) error {
@@ -38,4 +39,21 @@ func UpdateUser(user models.User) error {
 		SNSTikTok:    user.SNSTikTok,
 	})
 	return nil
+}
+
+func FindFriendsByUserID(userID string) ([]models.Friend, error) {
+	var friends []models.Friend
+
+	user, err := FindUserByUserID(userID)
+	if err != nil {
+		return friends, err
+	}
+
+	db, err := ConnectDB()
+	if err != nil {
+		return friends, err
+	}
+
+	db.Where("user_id = ?", user.ID).Find(&friends)
+	return friends, nil
 }

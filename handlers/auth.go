@@ -46,10 +46,7 @@ func AuthLogin(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, err)
 	}
 
-	user := models.User{
-		UserID: loginInfo.UserID,
-	}
-	err = database.FindUserByUserID(&user)
+	user, err := database.FindUserByUserID(loginInfo.UserID)
 	if err != nil {
 		return c.JSON(http.StatusServiceUnavailable, err)
 	}
@@ -59,7 +56,7 @@ func AuthLogin(c echo.Context) error {
 		return c.JSON(http.StatusUnauthorized, err)
 	}
 
-	token, err := auth.IssueToken(user.UserID)
+	token, err := auth.IssueToken(loginInfo.UserID)
 	if err != nil {
 		return c.JSON(http.StatusServiceUnavailable, err)
 	}

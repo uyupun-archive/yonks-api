@@ -9,10 +9,9 @@ import (
 )
 
 func GetProfile(c echo.Context) error {
-	userId := c.Param("user_id")
-	var user models.User
-	user.UserID = userId
-	err := database.FindUserByUserID(&user)
+	userID := c.Param("user_id")
+
+	user, err := database.FindUserByUserID(userID)
 	if err != nil {
 		return c.JSON(http.StatusServiceUnavailable, err)
 	}
