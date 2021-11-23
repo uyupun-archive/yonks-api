@@ -57,3 +57,26 @@ func FindFriendsByUserID(userID string) ([]models.Friend, error) {
 	db.Where("user_id = ?", user.ID).Find(&friends)
 	return friends, nil
 }
+
+func CreateFriend(userID string, targetUserID string) error {
+	db, err := ConnectDB()
+	if err != nil {
+		return err
+	}
+
+	user, err := FindUserByUserID(userID)
+	if err != nil {
+		return err
+	}
+
+	targetUser, err := FindUserByUserID(userID)
+	if err != nil {
+		return err
+	}
+
+	db.Create(&models.Friend{
+		UserID:       user.ID,
+		TargetUserID: targetUser.ID,
+	})
+	return nil
+}
