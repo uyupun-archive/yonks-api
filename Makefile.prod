@@ -1,0 +1,24 @@
+.PHONY: down ps
+
+up:
+	chmod 777 ./docker/db/logs
+	-docker-compose -f docker-compose.yml -f docker-compose.prod.yml build --no-cache
+	-docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+
+down:
+	-docker-compose -f docker-compose.yml -f docker-compose.prod.yml down
+
+ps:
+	-docker-compose -f docker-compose.yml -f docker-compose.prod.yml ps
+
+migrate/up:
+	docker-compose -f docker-compose.yml -f docker-compose.prod.yml exec api ./migrator up
+
+migrate/down:
+	docker-compose -f docker-compose.yml -f docker-compose.prod.yml exec api ./migrator down
+
+seed/init:
+	docker-compose -f docker-compose.yml -f docker-compose.prod.yml exec api ./seeder init
+
+seed/mock:
+	docker-compose -f docker-compose.yml -f docker-compose.prod.yml exec api ./seeder mock

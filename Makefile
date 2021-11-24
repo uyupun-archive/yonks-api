@@ -8,7 +8,7 @@ up:
 	reflex -r '\.go|config.yml\z' -s -- sh -c 'go run cmd/main.go cmd/config.go cmd/router.go'
 
 ngrok:
-	ngrok http 8000
+	ngrok http 8080
 
 migrate/up:
 	go run migrations/main.go migrations/targets.go up
