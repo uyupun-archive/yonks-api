@@ -1,4 +1,4 @@
-FROM golang:1.16.5-alpine3.13 AS builder
+FROM golang:1.17.3 AS builder
 RUN mkdir /go/src/yonks
 WORKDIR /go/src/yonks
 COPY ./ .
@@ -7,8 +7,9 @@ RUN go build -o bin/yonks cmd/main.go cmd/config.go cmd/router.go
 RUN go build -o bin/migrator migrations/main.go migrations/targets.go
 RUN go build -o bin/seeder seeds/main.go seeds/targets.go
 
-FROM alpine:3.13
+FROM alpine:3.15.0
 WORKDIR /app/
+COPY --from=builder /usr/share/zoneinfo/Asia/Tokyo /usr/share/zoneinfo/Asia/Tokyo
 COPY --from=builder /go/src/yonks/bin/yonks .
 COPY --from=builder /go/src/yonks/bin/migrator .
 COPY --from=builder /go/src/yonks/bin/seeder .
