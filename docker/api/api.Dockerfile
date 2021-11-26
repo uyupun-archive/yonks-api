@@ -2,7 +2,7 @@ FROM golang:1.17.3 AS builder
 RUN mkdir /go/src/yonks
 WORKDIR /go/src/yonks
 COPY ./ .
-ENV CGO_ENABLED=1 GOOS=linux GOARCH=amd64
+ENV CGO_ENABLED=0 GOOS=linux GOARCH=amd64
 RUN go build -o bin/yonks cmd/main.go cmd/config.go cmd/router.go
 RUN go build -o bin/migrator migrations/main.go migrations/targets.go
 RUN go build -o bin/seeder seeds/main.go seeds/targets.go
