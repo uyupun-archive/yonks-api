@@ -30,7 +30,7 @@ func getDSN() (string, error) {
 	}
 
 	host := os.Getenv("DB_HOST")
-	port := os.Getenv("DB_EXPOSE_PORT")
+	port := os.Getenv("DB_CONNECTION_PORT")
 	name := os.Getenv("DB_NAME")
 	userName := os.Getenv("DB_USERNAME")
 	password := os.Getenv("DB_PASSWORD")

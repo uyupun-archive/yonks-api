@@ -6,7 +6,7 @@ services:
     hostname: yonks_db
     image: mysql:8.0
     ports:
-      - ${DB_EXPOSE_PORT}:3306
+      - 3307:3306
     volumes:
       - ./docker/db/data:/var/lib/mysql
       - ./docker/db/logs:/var/log/mysql
