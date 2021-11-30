@@ -1,0 +1,3 @@
+[build]
+  bin = "bin/yonks"
+  cmd = "go build -o bin/yonks cmd/main.go cmd/config.go cmd/router.go"

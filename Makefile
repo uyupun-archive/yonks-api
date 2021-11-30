@@ -1,14 +1,9 @@
-.PHONY: deps up ngrok
-
 deps:
 	brew install ngrok
-	go install github.com/cespare/reflex@latest
+	go install github.com/cosmtrek/air@latest
 
 up:
-	reflex -r '\.go|config.yml\z' -s -- sh -c 'go run cmd/main.go cmd/config.go cmd/router.go'
-
-ngrok:
-	ngrok http 8080
+	air
 
 migrate/up:
 	go run migrations/main.go migrations/targets.go up

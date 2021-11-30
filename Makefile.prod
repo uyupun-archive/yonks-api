@@ -1,5 +1,3 @@
-.PHONY: down ps
-
 up:
 	chmod 777 ./docker/db/logs
 	-docker-compose -f docker-compose.yml -f docker-compose.prod.yml build --no-cache
