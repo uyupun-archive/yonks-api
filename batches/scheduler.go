@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"time"
 )
 
@@ -14,13 +13,11 @@ func scheduler() {
 	defer ticker.Stop()
 
 	for {
-		select {
-		case <-ticker.C:
-			matcher()
-		}
+		<-ticker.C
+		execMatcher()
 	}
 }
 
-func matcher() {
-	fmt.Println("hello, world!")
+func execMatcher() {
+	matcher()
 }

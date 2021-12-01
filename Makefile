@@ -11,6 +11,9 @@ down:
 ps:
 	docker-compose ps
 
+batch:
+	go run batches/scheduler.go batches/matcher.go
+
 migrate/up:
 	go run migrations/migrator.go migrations/targets.go up
 
