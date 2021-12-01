@@ -1,5 +1,4 @@
 deps:
-	brew install ngrok
 	go install github.com/cosmtrek/air@latest
 
 up:
