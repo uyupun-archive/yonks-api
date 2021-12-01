@@ -27,13 +27,10 @@ func execCmd() {
 	}
 
 	command := args[1]
-	if command == string(MigrateTypeUp) {
-		migrate(MigrateTypeUp)
-	} else if command == string(MigrateTypeDown) {
-		migrate(MigrateTypeDown)
-	} else {
+	if command != string(MigrateTypeUp) && command != string(MigrateTypeDown) {
 		panic("Command not match")
 	}
+	migrate(MigrateType(command))
 }
 
 func migrate(migrateType MigrateType) {
@@ -43,22 +40,23 @@ func migrate(migrateType MigrateType) {
 	}
 
 	cnt := 0
+	msg := "Applied"
 	for _, target := range registerMigrationTargets() {
-		msg := "Applied"
 		isShow := false
-		if migrateType == MigrateTypeUp {
-			if !db.Migrator().HasTable(target) {
-				isShow = true
-			}
-			db.AutoMigrate(target)
-		} else if migrateType == MigrateTypeDown {
+		switch migrateType {
+		case MigrateTypeUp:
 			if db.Migrator().HasTable(target) {
-				isShow = true
+				break
 			}
-			db.Migrator().DropTable(target)
+			isShow = true
+			db.AutoMigrate(target)
+		case MigrateTypeDown:
 			msg = "Rollbacked"
-		} else {
-			return
+			if !db.Migrator().HasTable(target) {
+				break
+			}
+			isShow = true
+			db.Migrator().DropTable(target)
 		}
 
 		if isShow {
@@ -66,5 +64,8 @@ func migrate(migrateType MigrateType) {
 			modelName := strings.Split(reflect.TypeOf(target).String(), ".")[1]
 			fmt.Printf("%d: %s %s migration!\n", cnt, msg, modelName)
 		}
+	}
+	if cnt == 0 {
+		fmt.Printf("No migration to \"%s\"\n", msg)
 	}
 }
