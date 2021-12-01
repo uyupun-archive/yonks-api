@@ -1,10 +1,17 @@
 # 環境構築(開発環境)
 
 ```bash
-$ cp .env.example .env  # 実行後、.envに適切な値を設定する
+# .envの作成
+# 実行後、.envに適切な値を設定する
+$ cp .env.example .env
+# 依存関係のライブラリをインストール
 $ make deps
+# MySQLのDockerコンテナとAPIの開発用サーバを起動
 $ make up
-$ make ngrok
+# MySQLのDockerコンテナを停止
+$ make down
+# Dockerのプロセスを確認
+$ make ps
 ```
 
 ### DBマイグレーション

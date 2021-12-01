@@ -3,7 +3,14 @@ deps:
 	go install github.com/cosmtrek/air@latest
 
 up:
+	docker-compose up -d
 	air
+
+down:
+	docker-compose down
+
+ps:
+	docker-compose ps
 
 migrate/up:
 	go run migrations/main.go migrations/targets.go up
