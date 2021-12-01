@@ -28,13 +28,10 @@ func execCmd() {
 	}
 
 	command := args[1]
-	if command == string(SeedTypeInit) {
-		seed(SeedTypeInit)
-	} else if command == string(SeedTypeMock) {
-		seed(SeedTypeMock)
-	} else {
+	if command != string(SeedTypeInit) && command != string(SeedTypeMock) {
 		panic("Command not match")
 	}
+	seed(SeedType(command))
 }
 
 func seed(seedType SeedType) {
