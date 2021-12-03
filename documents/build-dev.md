@@ -12,6 +12,8 @@ $ make up
 $ make down
 # Dockerのプロセスを確認
 $ make ps
+# マッチングバッチの起動
+$ make batch
 ```
 
 ### DBマイグレーション
