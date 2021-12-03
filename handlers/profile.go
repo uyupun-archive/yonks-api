@@ -5,7 +5,7 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/uyupun/yonks-api/models"
-	"github.com/uyupun/yonks-api/utility/database"
+	"github.com/uyupun/yonks-api/utils/database"
 )
 
 func GetProfile(c echo.Context) error {

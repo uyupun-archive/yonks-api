@@ -6,7 +6,7 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/uyupun/yonks-api/utility/database"
+	"github.com/uyupun/yonks-api/utils/database"
 )
 
 type MigrateType string
